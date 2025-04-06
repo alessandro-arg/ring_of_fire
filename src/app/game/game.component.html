@@ -1,1 +1,26 @@
-<p>game works!</p>
+<div class="field">
+  <div class="card_stack">
+    @for (card of cards;track card; let index = $index) {
+    <img
+      src="assets/img/cards/card_cover.png"
+      [style.transform]="
+        'translate(' + +index * 10 + 'px, ' + index * 5 + 'px)'
+      "
+    />
+    }
+    <img
+      (click)="takeCard()"
+      class="top_card"
+      style="left: 40px; top: 20px"
+      src="assets/img/cards/card_cover.png"
+    />
+    @if (pickCardAnimation) {
+    <img
+      (click)="takeCard()"
+      class="pick_card"
+      style="left: 40px; top: 20px"
+      src="assets/img/cards/{{ currentCard }}.png"
+    />
+    }
+  </div>
+</div>
