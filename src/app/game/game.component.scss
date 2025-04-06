@@ -44,3 +44,20 @@
     transform: scale(1.3) translateX(120px) translateY(-180px) rotate(-10deg);
   }
 }
+
+.played_card {
+  transform: scale(1.3) translateX(120px) translateY(-180px) rotate(-10deg);
+  left: 40px;
+  top: 20px;
+}
+
+.player_position {
+  position: absolute;
+  right: 0;
+}
+
+.btn_add {
+  position: absolute;
+  bottom: 32px;
+  right: 32px;
+}
