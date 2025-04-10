@@ -1,7 +1,8 @@
 @for (player of game.players; track player; let index = $index) {
 <app-player
   class="player_position"
-  [style]="{ top: 100 + index * 120 + 'px' }"
+  [style]="{ top: 100 + index * 90 + 'px' }"
+  [playerActive]="index == game.currentPlayer"
   [name]="player"
 ></app-player>
 }
