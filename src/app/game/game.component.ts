@@ -9,6 +9,13 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { DialogAddPlayerComponent } from '../dialog-add-player/dialog-add-player.component';
 import { GameInfoComponent } from '../game-info/game-info.component';
+import {
+  Firestore,
+  collectionData,
+  collection,
+  addDoc,
+  onSnapshot,
+} from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-game',
@@ -33,13 +40,36 @@ export class GameComponent {
   currentCard: string | undefined = '';
   game!: Game;
 
+  firestore: Firestore = inject(Firestore);
+  item$ = collectionData(this.getGameRef());
+
   constructor() {
     this.newGame();
+    this.subGame();
+  }
+
+  subGame() {
+    return onSnapshot(this.getGameRef(), (game) => {
+      game.forEach((element) => {
+        const data = element.data();
+        console.log('Game update:', data);
+      });
+    });
+  }
+
+  getGameRef() {
+    return collection(this.firestore, 'games');
   }
 
   newGame() {
     this.game = new Game();
-    console.log(this.game);
+    addDoc(this.getGameRef(), { Hallo: 'Welt' })
+      .then((docRef) => {
+        console.log('Document written with ID:', docRef.id);
+      })
+      .catch((error) => {
+        console.error('Error adding document:', error);
+      });
   }
 
   takeCard() {
