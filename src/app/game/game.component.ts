@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Game } from '../../models/game';
 import { PlayerComponent } from '../player/player.component';
@@ -15,7 +15,11 @@ import {
   collection,
   addDoc,
   onSnapshot,
+  doc,
+  DocumentReference,
+  DocumentData,
 } from '@angular/fire/firestore';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-game',
@@ -32,7 +36,7 @@ import {
   templateUrl: './game.component.html',
   styleUrl: './game.component.scss',
 })
-export class GameComponent {
+export class GameComponent implements OnInit {
   readonly dialog = inject(MatDialog);
   cards = [0, 1, 2, 3];
   card = '';
@@ -43,17 +47,32 @@ export class GameComponent {
   firestore: Firestore = inject(Firestore);
   item$ = collectionData(this.getGameRef());
 
-  constructor() {
+  constructor(private route: ActivatedRoute) {}
+
+  ngOnInit(): void {
     this.newGame();
-    this.subGame();
+    this.route.params.subscribe((params) => {
+      const id = params['id'];
+      if (id) {
+        this.subGame(id);
+        console.log(id);
+      }
+    });
   }
 
-  subGame() {
-    return onSnapshot(this.getGameRef(), (game) => {
-      game.forEach((element) => {
-        const data = element.data();
+  subGame(id: string) {
+    const gameDocRef = doc(this.firestore, `games/${id}`);
+    return onSnapshot(gameDocRef, (docSnap) => {
+      if (docSnap.exists()) {
+        const data = docSnap.data();
         console.log('Game update:', data);
-      });
+        this.game.currentPlayer = data['currentPlayer'];
+        this.game.playedCards = data['playedCards'];
+        this.game.players = data['players'];
+        this.game.stack = data['stack'];
+      } else {
+        console.log('No such document!');
+      }
     });
   }
 
@@ -61,15 +80,15 @@ export class GameComponent {
     return collection(this.firestore, 'games');
   }
 
-  newGame() {
+  async newGame() {
     this.game = new Game();
-    addDoc(this.getGameRef(), { Hallo: 'Welt' })
-      .then((docRef) => {
-        console.log('Document written with ID:', docRef.id);
-      })
-      .catch((error) => {
-        console.error('Error adding document:', error);
-      });
+    // await addDoc(this.getGameRef(), this.game.gameToJson())
+    //   .then((docRef) => {
+    //     console.log('Document written with ID:', docRef.id);
+    //   })
+    //   .catch((error) => {
+    //     console.error('Error adding document:', error);
+    //   });
   }
 
   takeCard() {

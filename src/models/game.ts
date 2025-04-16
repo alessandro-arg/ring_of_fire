@@ -20,4 +20,13 @@ export class Game {
       [this.stack[i], this.stack[j]] = [this.stack[j], this.stack[i]];
     }
   }
+
+  public gameToJson() {
+    return {
+      players: this.players,
+      stack: this.stack,
+      playedCards: this.playedCards,
+      currentPlayer: this.currentPlayer,
+    };
+  }
 }
