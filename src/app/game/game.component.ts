@@ -9,16 +9,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { DialogAddPlayerComponent } from '../dialog-add-player/dialog-add-player.component';
 import { GameInfoComponent } from '../game-info/game-info.component';
-import {
-  Firestore,
-  collectionData,
-  collection,
-  addDoc,
-  onSnapshot,
-  doc,
-  DocumentReference,
-  DocumentData,
-} from '@angular/fire/firestore';
+import { Firestore, onSnapshot, doc, updateDoc } from '@angular/fire/firestore';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -43,19 +34,18 @@ export class GameComponent implements OnInit {
   pickCardAnimation = false;
   currentCard: string | undefined = '';
   game!: Game;
-
   firestore: Firestore = inject(Firestore);
-  item$ = collectionData(this.getGameRef());
+  gameId!: string;
 
   constructor(private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.newGame();
     this.route.params.subscribe((params) => {
-      const id = params['id'];
-      if (id) {
-        this.subGame(id);
-        console.log(id);
+      this.gameId = params['id'];
+      if (this.gameId) {
+        this.subGame(this.gameId);
+        console.log(this.gameId);
       }
     });
   }
@@ -76,19 +66,15 @@ export class GameComponent implements OnInit {
     });
   }
 
-  getGameRef() {
-    return collection(this.firestore, 'games');
-  }
-
   async newGame() {
     this.game = new Game();
-    // await addDoc(this.getGameRef(), this.game.gameToJson())
-    //   .then((docRef) => {
-    //     console.log('Document written with ID:', docRef.id);
-    //   })
-    //   .catch((error) => {
-    //     console.error('Error adding document:', error);
-    //   });
+  }
+
+  saveGame() {
+    const gameDocRef = doc(this.firestore, `games/${this.gameId}`);
+    updateDoc(gameDocRef, this.game.gameToJson()).then(() => {
+      console.log('Game successfully updated');
+    });
   }
 
   takeCard() {
@@ -113,6 +99,7 @@ export class GameComponent implements OnInit {
     dialogRef.afterClosed().subscribe((name) => {
       if (name && name.length > 0) {
         this.game.players.push(name);
+        this.saveGame();
       }
     });
   }
