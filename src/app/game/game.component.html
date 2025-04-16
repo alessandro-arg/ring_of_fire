@@ -1,11 +1,20 @@
 @for (player of game.players; track player; let index = $index) {
 <app-player
-  class="player_position"
+  class="player_position hide_mobile"
   [style]="{ top: 100 + index * 90 + 'px' }"
   [playerActive]="index == game.currentPlayer"
   [name]="player"
 ></app-player>
 }
+
+<div class="scroll_container hide_desktop">
+  @for (player of game.players; track player; let index = $index) {
+  <app-player-mobile
+    [playerActive]="index == game.currentPlayer"
+    [name]="player"
+  ></app-player-mobile>
+  }
+</div>
 
 <div class="field">
   <div class="card_stack">
@@ -13,14 +22,14 @@
     <img
       src="assets/img/cards/card_cover.png"
       [style.transform]="
-        'translate(' + +index * 10 + 'px, ' + index * 5 + 'px)'
+        'translate(' + +index * -10 + 'px, ' + index * -5 + 'px)'
       "
     />
     }
     <img
       (click)="takeCard()"
       class="top_card"
-      style="left: 40px; top: 20px"
+      style="left: -40px; top: -20px"
       src="assets/img/cards/card_cover.png"
     />
     @for (playedCard of game.playedCards; track playedCard) {
@@ -33,7 +42,7 @@
     <img
       (click)="takeCard()"
       class="pick_card"
-      style="left: 40px; top: 20px"
+      style="left: -40px; top: -20px"
       src="assets/img/cards/{{ game.currentCard }}.png"
     />}
   </div>

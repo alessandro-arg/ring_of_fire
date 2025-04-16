@@ -11,6 +11,7 @@ import { DialogAddPlayerComponent } from '../dialog-add-player/dialog-add-player
 import { GameInfoComponent } from '../game-info/game-info.component';
 import { Firestore, onSnapshot, doc, updateDoc } from '@angular/fire/firestore';
 import { ActivatedRoute } from '@angular/router';
+import { PlayerMobileComponent } from '../player-mobile/player-mobile.component';
 
 @Component({
   selector: 'app-game',
@@ -23,6 +24,7 @@ import { ActivatedRoute } from '@angular/router';
     MatInputModule,
     FormsModule,
     GameInfoComponent,
+    PlayerMobileComponent,
   ],
   templateUrl: './game.component.html',
   styleUrl: './game.component.scss',
