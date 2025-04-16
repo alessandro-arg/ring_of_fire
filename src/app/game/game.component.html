@@ -29,17 +29,17 @@
       src="assets/img/cards/{{ playedCard }}.png"
       alt=""
     />
-    } @if (pickCardAnimation) {
+    } @if (game.pickCardAnimation) {
     <img
       (click)="takeCard()"
       class="pick_card"
       style="left: 40px; top: 20px"
-      src="assets/img/cards/{{ currentCard }}.png"
+      src="assets/img/cards/{{ game.currentCard }}.png"
     />}
   </div>
 </div>
 
-<app-game-info [card]="currentCard" class="pin-bottom"></app-game-info>
+<app-game-info [card]="game.currentCard" class="pin-bottom"></app-game-info>
 
 <button mat-fab color="primary" class="btn_add" (click)="openDialog()">
   <mat-icon>add</mat-icon>

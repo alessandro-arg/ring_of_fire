@@ -31,8 +31,6 @@ export class GameComponent implements OnInit {
   readonly dialog = inject(MatDialog);
   cards = [0, 1, 2, 3];
   card = '';
-  pickCardAnimation = false;
-  currentCard: string | undefined = '';
   game!: Game;
   firestore: Firestore = inject(Firestore);
   gameId!: string;
@@ -60,6 +58,8 @@ export class GameComponent implements OnInit {
         this.game.playedCards = data['playedCards'];
         this.game.players = data['players'];
         this.game.stack = data['stack'];
+        this.game.pickCardAnimation = data['pickCardAnimation'];
+        this.game.currentCard = data['currentCard'];
       } else {
         console.log('No such document!');
       }
@@ -78,17 +78,19 @@ export class GameComponent implements OnInit {
   }
 
   takeCard() {
-    if (!this.pickCardAnimation) {
-      this.currentCard = this.game.stack.pop();
-      this.pickCardAnimation = true;
+    if (!this.game.pickCardAnimation) {
+      this.game.currentCard = this.game.stack.pop();
+      this.game.pickCardAnimation = true;
+      this.saveGame();
       this.game.currentPlayer++;
       this.game.currentPlayer =
         this.game.currentPlayer % this.game.players.length;
       setTimeout(() => {
-        if (this.currentCard) {
-          this.game.playedCards.push(this.currentCard);
+        if (this.game.currentCard) {
+          this.game.playedCards.push(this.game.currentCard);
         }
-        this.pickCardAnimation = false;
+        this.game.pickCardAnimation = false;
+        this.saveGame();
       }, 1000);
     }
   }

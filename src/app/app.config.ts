@@ -17,7 +17,7 @@ export const appConfig: ApplicationConfig = {
         projectId: 'ring-of-fire-e6edf',
         appId: '1:311301486456:web:dcd3c1738161d8f9d6fa8d',
         storageBucket: 'ring-of-fire-e6edf.firebasestorage.app',
-        apiKey: 'HIDDEN',
+        apiKey: 'AIzaSyAG3oTAkUQMiHyEFv0y7-bSc6qsnvCU9aw',
         authDomain: 'ring-of-fire-e6edf.firebaseapp.com',
         messagingSenderId: '311301486456',
       })
