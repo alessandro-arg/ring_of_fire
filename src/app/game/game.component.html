@@ -1,5 +1,6 @@
 @for (player of game.players; track player; let index = $index) {
 <app-player
+  (click)="editPlayer(index)"
   class="player_position hide_mobile"
   [style]="{ top: 100 + index * 90 + 'px' }"
   [playerActive]="index == game.currentPlayer"
@@ -10,6 +11,7 @@
 <div class="scroll_container hide_desktop">
   @for (player of game.players; track player; let index = $index) {
   <app-player-mobile
+    (click)="editPlayer(index)"
     [playerActive]="index == game.currentPlayer"
     [name]="player"
   ></app-player-mobile>

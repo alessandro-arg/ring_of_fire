@@ -12,6 +12,7 @@ import { GameInfoComponent } from '../game-info/game-info.component';
 import { Firestore, onSnapshot, doc, updateDoc } from '@angular/fire/firestore';
 import { ActivatedRoute } from '@angular/router';
 import { PlayerMobileComponent } from '../player-mobile/player-mobile.component';
+import { EditPlayerComponent } from '../edit-player/edit-player.component';
 
 @Component({
   selector: 'app-game',
@@ -95,6 +96,15 @@ export class GameComponent implements OnInit {
         this.saveGame();
       }, 1000);
     }
+  }
+
+  editPlayer(playerId: number) {
+    console.log('Edit Player', playerId);
+
+    const dialogRef = this.dialog.open(EditPlayerComponent);
+    dialogRef.afterClosed().subscribe((change: string) => {
+      console.log('Recived change ', change);
+    });
   }
 
   openDialog(): void {
