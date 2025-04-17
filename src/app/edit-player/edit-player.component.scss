@@ -3,14 +3,29 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 40px 100px;
   justify-content: space-evenly;
-  width: 50vw;
-  height: 550px;
+  width: 40vw;
+  height: 400px;
+
+  @media (max-width: 1250px) {
+    width: 50vw;
+    padding: 20px 50px;
+  }
+  @media (max-height: 860px) {
+    width: 65vw;
+    height: 600px;
+    padding: 20px;
+  }
 
   h2 {
     font-size: 32px;
     font-weight: bold;
     margin-bottom: 0;
+    @media (max-height: 860px) {
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
   }
 
   .avatar_grid {
@@ -19,6 +34,11 @@
     gap: 25px;
     justify-items: center;
     margin-bottom: 50px;
+
+    @media (max-height: 860px) {
+      grid-template-columns: repeat(2, 1fr);
+      margin-bottom: 170px;
+    }
   }
 
   .avatar_button {
@@ -34,6 +54,11 @@
       border-radius: 50%;
       filter: grayscale(80%);
       transition: filter 0.3s ease, transform 0.2s ease;
+
+      @media (max-height: 860px) {
+        width: 80px;
+        height: 80px;
+      }
     }
 
     &:hover img {
@@ -49,8 +74,20 @@
     display: flex;
     gap: 20px;
 
+    @media (max-height: 860px) {
+      bottom: 5px;
+      right: 0;
+      left: 0;
+      margin-bottom: 30px;
+      flex-direction: column;
+    }
+
     button {
       font-size: 20px;
+
+      @media (max-height: 860px) {
+        font-size: 20px;
+      }
     }
   }
 }

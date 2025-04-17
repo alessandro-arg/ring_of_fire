@@ -35,6 +35,7 @@ export class GameComponent implements OnInit {
   cards = [0, 1, 2, 3];
   card = '';
   game!: Game;
+  gameOver = false;
   firestore: Firestore = inject(Firestore);
   gameId!: string;
 
@@ -82,7 +83,9 @@ export class GameComponent implements OnInit {
   }
 
   takeCard() {
-    if (!this.game.pickCardAnimation) {
+    if (this.game.stack.length == 0) {
+      this.gameOver = true;
+    } else if (!this.game.pickCardAnimation) {
       this.game.currentCard = this.game.stack.pop();
       this.game.pickCardAnimation = true;
       this.game.currentPlayer++;
