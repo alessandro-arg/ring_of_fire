@@ -5,6 +5,7 @@
   [style]="{ top: 100 + index * 90 + 'px' }"
   [playerActive]="index == game.currentPlayer"
   [name]="player"
+  [image]="game.player_avatars[index]"
 ></app-player>
 }
 
@@ -14,6 +15,7 @@
     (click)="editPlayer(index)"
     [playerActive]="index == game.currentPlayer"
     [name]="player"
+    [image]="game.player_avatars[index]"
   ></app-player-mobile>
   }
 </div>

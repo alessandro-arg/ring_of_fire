@@ -1,1 +1,20 @@
-<img src="./../../assets/img/profile/avatar_1.png" alt="" />
+<div class="avatar_selection_container">
+  <h2 mat-dialog-title>Choose avatar</h2>
+  <div class="avatar_grid">
+    @for (picture of allProfilePictures; track picture; let index = $index) {
+    <button class="avatar_button" [mat-dialog-close]="picture">
+      <img
+        class="profile_picture"
+        src="./../../assets/img/profile/{{ picture }}"
+        alt=""
+      />
+    </button>
+    }
+  </div>
+  <div class="buttons">
+    <button mat-button (click)="onNoClick()">Close</button>
+    <button mat-button color="warn" [mat-dialog-close]="'DELETE'">
+      Delete player
+    </button>
+  </div>
+</div>

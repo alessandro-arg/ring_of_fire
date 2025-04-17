@@ -60,6 +60,7 @@ export class GameComponent implements OnInit {
         this.game.currentPlayer = data['currentPlayer'];
         this.game.playedCards = data['playedCards'];
         this.game.players = data['players'];
+        this.game.player_avatars = data['player_avatars'];
         this.game.stack = data['stack'];
         this.game.pickCardAnimation = data['pickCardAnimation'];
         this.game.currentCard = data['currentCard'];
@@ -103,7 +104,15 @@ export class GameComponent implements OnInit {
 
     const dialogRef = this.dialog.open(EditPlayerComponent);
     dialogRef.afterClosed().subscribe((change: string) => {
-      console.log('Recived change ', change);
+      if (change) {
+        if (change == 'DELETE') {
+          this.game.players.splice(playerId, 1);
+          this.saveGame();
+        } else {
+          this.game.player_avatars[playerId] = change;
+          this.saveGame();
+        }
+      }
     });
   }
 
@@ -113,6 +122,7 @@ export class GameComponent implements OnInit {
     dialogRef.afterClosed().subscribe((name) => {
       if (name && name.length > 0) {
         this.game.players.push(name);
+        this.game.player_avatars.push('avatar_1.png');
         this.saveGame();
       }
     });
